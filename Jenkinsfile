@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // test.py 프로젝트 테스트
-                    sh 'python3 test.py'
+                    sh 'python test.py'
                 }
             }
         }
