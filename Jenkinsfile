@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        python 'python3'
+        python 'Python3'
     }
     stages {
         stage('Checkout SCM') {
