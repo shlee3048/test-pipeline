@@ -1,5 +1,5 @@
 pipeline {
-    agent { node { label 'shlee-jenkins-ubuntu' } }
+    agent { node { label 'shlee-jenkins-python' } }
     
     stages {
         stage('Checkout SCM') {
