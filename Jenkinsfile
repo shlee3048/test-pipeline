@@ -1,5 +1,9 @@
 pipeline {
-    agent { node { label 'shlee-jenkins-python' } }
+    agent {
+         kubernetes {
+            defaultContainer 'python'
+         }
+    }
     
     stages {
         stage('Checkout SCM') {
