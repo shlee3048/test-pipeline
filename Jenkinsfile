@@ -13,6 +13,10 @@ pipeline {
               - name: python
                 image: python:3.8
                 imagePullPolicy: IfNotPresent
+                command:
+                - cat
+                tty: true
+
             '''
         }
     }
