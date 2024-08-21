@@ -16,7 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 // test.py 프로젝트 테스트
-                sh 'python3 test.py'
+                sh 'python test.py'
                 
             }
         }
