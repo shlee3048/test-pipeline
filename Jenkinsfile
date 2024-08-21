@@ -16,7 +16,6 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'apt install -y python3'
                     // test.py 프로젝트 테스트
                     sh 'python test.py'
                 }
