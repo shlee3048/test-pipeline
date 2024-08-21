@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'shlee-jenkins-python'
+    }
     
     stages {
         stage('Checkout SCM') {
