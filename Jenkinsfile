@@ -1,7 +1,7 @@
 pipeline {
     agent {
          kubernetes {
-            defaultContainer 'python'
+            label 'python'
             yaml '''
             apiVersion: v1
             kind: Pod
@@ -11,7 +11,7 @@ pipeline {
             spec:
               containers:
               - name: python
-                image: python:latest
+                image: python:3.8
                 imagePullPolicy: IfNotPresent
             '''
         }
