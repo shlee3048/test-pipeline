@@ -1,5 +1,5 @@
 pipeline {
-    podTemplate(label: "shlee-jenkins-ubuntu")
+    agent { node { label 'shlee-jenkins-ubuntu' } }
     
     stages {
         stage('Checkout SCM') {
