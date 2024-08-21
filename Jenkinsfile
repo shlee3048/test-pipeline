@@ -1,7 +1,7 @@
 pipeline {
     agent {
-         kubernetes {
-            label 'python'
+        kubernetes {
+            label 'python-pod-template'
             yaml '''
             apiVersion: v1
             kind: Pod
@@ -12,15 +12,18 @@ pipeline {
               containers:
               - name: python
                 image: python:3.8
-                imagePullPolicy: IfNotPresent
                 command:
                 - cat
                 tty: true
-
+              - name: jnlp
+                image: jenkins/inbound-agent:latest
+                resources:
+                  requests:
+                    memory: "256Mi"
+                    cpu: "100m"
             '''
         }
     }
-
     
     stages {
         stage('Checkout SCM') {
