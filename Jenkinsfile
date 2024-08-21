@@ -2,8 +2,21 @@ pipeline {
     agent {
          kubernetes {
             defaultContainer 'python'
-         }
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              labels:
+                app: python
+            spec:
+              containers:
+              - name: python
+                image: python:latest
+                imagePullPolicy: IfNotPresent
+            '''
+        }
     }
+
     
     stages {
         stage('Checkout SCM') {
