@@ -1,29 +1,6 @@
 pipeline {
-
-    agent {
-        kubernetes {
-            label 'shlee-jenkins-ubuntu'
-            defaultContainer 'ubuntu' // 사용할 컨테이너의 이름
-            yaml '''
-            apiVersion: v1
-            kind: Pod
-            metadata:
-              labels:
-                app: jenkins
-            spec:
-              containers:
-                - name: ubuntu
-                  image: ubuntu:latest
-                  command:
-                    - cat
-                  tty: true
-                  resources:
-                    requests:
-                      memory: "512Mi"
-                      cpu: "500m"
-            '''
-        }
-    }
+    podTemplate(label: "shlee-jenkins-ubuntu")
+    
     stages {
         stage('Checkout SCM') {
             steps {
