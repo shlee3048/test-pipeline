@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        python 'python3'
+    }
     stages {
         stage('Checkout SCM') {
             steps {
@@ -14,9 +17,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-              
-                    // test.py 프로젝트 테스트
-                    sh 'python test.py'
+                // test.py 프로젝트 테스트
+                sh 'python3 test.py'
                 
             }
         }
