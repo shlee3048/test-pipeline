@@ -1,8 +1,5 @@
 pipeline {
 
-    tools {
-        python 'python3'
-    }
     agent any
     stages {
         stage('Checkout SCM') {
@@ -19,6 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 // test.py 프로젝트 테스트
+                sh 'apt install -y python3'
                 sh 'python3 test.py'
                 
             }
