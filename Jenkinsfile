@@ -1,20 +1,20 @@
 pipeline {
     agent any
+    
     stages {
-        stage('build') {
+        stage('Checkout') {
             steps {
-                echo 'building the application...'
+                git 'https://github.com/shlee3048/test-pipeline.git'
             }
         }
-        stage('test') {
+        stage('Build') {
             steps {
-                echo 'testing the application...'
+                script {
+                    // test.py 프로젝트 테스트
+                    sh 'python3 test.py'
+                }
             }
         }
-        stage('deploy') {
-            steps {
-                echo 'deploying the application...'
-            }
-        }
+
     }
 }
