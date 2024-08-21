@@ -1,7 +1,7 @@
 pipeline {
 
     tools {
-        python 'python3'
+        jenkins.plugins.shiningpanda.tools.PythonInstallation 'python3'
     }
     agent any
     stages {
