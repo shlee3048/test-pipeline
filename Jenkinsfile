@@ -2,11 +2,12 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/shlee3048/test-pipeline.git'
+        stage('Checkout SCM'){
+            steps{
+                script{
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/shlee3048/test-pipeline.git']])
+                }
             }
-        }
         stage('Build') {
             steps {
                 script {
