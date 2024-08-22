@@ -2,6 +2,7 @@ pipeline {
     agent {
         kubernetes {
             label 'python-pod-template'
+            defaultContainer 'python'
             yaml '''
             apiVersion: v1
             kind: Pod
