@@ -15,12 +15,6 @@ pipeline {
                 command:
                 - cat
                 tty: true
-              - name: jnlp
-                image: jenkins/inbound-agent:latest
-                resources:
-                  requests:
-                    memory: "256Mi"
-                    cpu: "100m"
             '''
         }
     }
@@ -39,9 +33,11 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // test.py 프로젝트 테스트
-                sh 'python3 test.py'
-                
+                container('python') {
+                    // test.py 프로젝트 테스트
+                    sh 'python3 test.py'
+                }
+
             }
         }
     }
