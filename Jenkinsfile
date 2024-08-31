@@ -19,7 +19,7 @@ pipeline {
             '''
         }
     }
-    
+
     stages {
         stage('Checkout SCM') {
             steps {
@@ -32,13 +32,46 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
                 container('python') {
-                    // test.py 프로젝트 테스트
-                    sh 'python3 test.py'
+                    sh 'pip install -r requirements.txt'
                 }
-
+            }
+        }
+        stage('Test FastAPI Application') {
+            steps {
+                container('python') {
+                    // FastAPI 애플리케이션 테스트
+                    sh 'uvicorn main:app --host 0.0.0.0 --port 8000 --log-level info &'
+                    sh 'sleep 5' // 애플리케이션이 시작될 시간을 줌
+                    sh 'curl -f -X GET http://localhost:8000/hello'
+                    sh 'curl -f -X POST http://localhost:8000/echo -H "Content-Type: application/json" -d \'{"text":"Hello"}\''
+                    sh 'pkill -f "uvicorn main:app"'
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                container('python') {
+                    sh 'docker build -t shlee3048/fast-app:latest .'
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                container('python') {
+                    withDockerRegistry([credentialsId: 'docker-hub-credentials', url: 'https://index.docker.io/v1/']) {
+                        sh 'docker push shlee3048/fast-app:latest'
+                    }
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                container('python') {
+                    sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record'
+                }
             }
         }
     }
