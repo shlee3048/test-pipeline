@@ -45,7 +45,7 @@ pipeline {
                     // FastAPI 애플리케이션 테스트
                     sh 'uvicorn main:app --host 0.0.0.0 --port 8000 --log-level info &'
                     sh 'sleep 5' // 애플리케이션이 시작될 시간을 줌
-                    sh 'curl -f -X GET http://localhost:8000/hello'
+                    sh 'curl -f -X GET http://localhost:8000/hel'
                     sh 'curl -f -X POST http://localhost:8000/echo -H "Content-Type: application/json" -d \'{"text":"Hello"}\''
                     sh 'pkill -f "uvicorn main:app"'
                 }
