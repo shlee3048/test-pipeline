@@ -92,7 +92,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 container('kubectl') {
-                    sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record -n devops'
+                    sh 'kubectl get nodes'
                 }
             }
         }
