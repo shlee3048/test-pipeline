@@ -94,7 +94,9 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f deployments.yaml'
+                container('kubectl') {  // 이 컨테이너에서 실행되지만 KUBECONFIG를 사용함
+                    sh 'kubectl apply -f deployments.yaml'
+                }
             }
         }
     }
