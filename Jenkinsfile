@@ -90,8 +90,10 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.default.svc']) {
-                    sh 'kubectl apply -f deployments.yaml'
+                container('kubectl') {
+                    withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.default.svc']) {
+                        sh 'kubectl apply -f deployments.yaml'
+                    }
                 }
             }
         }
