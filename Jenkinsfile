@@ -93,10 +93,8 @@ pipeline {
             }
         }
         stage('Deploy to Kubernetes') {
-            steps {
-                container('kubectl') {  // 이 컨테이너에서 실행되지만 KUBECONFIG를 사용함
-                    sh 'kubectl apply -f deployments.yaml'
-                }
+            withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.default']) {
+                sh 'kubectl apply -f deployments.yaml'
             }
         }
     }
