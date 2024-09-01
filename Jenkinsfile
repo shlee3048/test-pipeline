@@ -19,10 +19,10 @@ pipeline {
               - name: kubectl
                 image: bitnami/kubectl:latest
                 command:
-                - sleep
-                args:
-                - 9999999
+                - cat
                 tty: true
+                securityContext:
+                  runAsUser: 1000
               - name: docker
                 image: docker:stable
                 command:
