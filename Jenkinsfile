@@ -16,13 +16,6 @@ pipeline {
                 command:
                 - cat
                 tty: true
-              - name: kubectl
-                image: bitnami/kubectl:latest
-                command:
-                - cat
-                tty: true
-                securityContext:
-                  runAsUser: 1000
               - name: docker
                 image: docker:stable
                 command:
@@ -90,10 +83,9 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                container('kubectl') {
-                    withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.docker.internal:6443']) {
-                        sh 'kubectl apply -f deployments.yaml'
-                    }
+                withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.docker.internal:6443']) {
+                    sh 'kubectl apply -f deployments.yaml'
+                    
                 }
             }
         }
