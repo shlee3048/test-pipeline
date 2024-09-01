@@ -41,10 +41,6 @@ pipeline {
         }
     }
         
-    environment {
-        KUBECONFIG = credentials('kubeconfig-devops')
-    }
-
     stages {
         stage('Checkout SCM') {
             steps {
@@ -93,8 +89,10 @@ pipeline {
             }
         }
         stage('Deploy to Kubernetes') {
-            withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.default']) {
-                sh 'kubectl apply -f deployments.yaml'
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig-devops', serverUrl: 'https://kubernetes.default.svc']) {
+                    sh 'kubectl apply -f deployments.yaml'
+                }
             }
         }
     }
