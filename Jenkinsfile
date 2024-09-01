@@ -30,6 +30,13 @@ pipeline {
               - name: docker-sock
                 hostPath:
                   path: /var/run/docker.sock
+              - name: kubectl
+                image: bitnami/kubectl:latest
+                command:
+                - sleep
+                args:
+                - 9999999
+                tty: true
                 
             '''
         }
@@ -84,7 +91,7 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                container('docker') {
+                container('kubectl') {
                     sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record'
                 }
             }
