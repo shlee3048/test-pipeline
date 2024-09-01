@@ -1,20 +1,27 @@
 pipeline {
     agent {
         kubernetes {
-            label 'python-pod-template'
+            label 'python-docker-pod-template'
             defaultContainer 'python'
             yaml '''
             apiVersion: v1
             kind: Pod
             metadata:
               labels:
-                app: python
+                app: python-docker
             spec:
               containers:
               - name: python
                 image: python:3.8
                 command:
                 - cat
+                tty: true
+              - name: docker
+                image: docker:stable
+                command:
+                - sleep
+                args:
+                - 9999999
                 tty: true
             '''
         }
@@ -53,14 +60,14 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                container('python') {
+                container('docker') {
                     sh 'docker build -t shlee3048/fast-app:latest .'
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
-                container('python') {
+                container('docker') {
                     withDockerRegistry([credentialsId: 'docker-hub-credentials', url: 'https://index.docker.io/v1/']) {
                         sh 'docker push shlee3048/fast-app:latest'
                     }
@@ -69,7 +76,7 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                container('python') {
+                container('docker') {
                     sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record'
                 }
             }
