@@ -90,9 +90,7 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    kubernetesDeploy(configs: "deployment.yaml")
-                }
+                sh 'kubectl apply -f deployments.yaml'
             }
         }
     }
