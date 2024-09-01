@@ -40,6 +40,10 @@ pipeline {
             '''
         }
     }
+        
+    environment {
+        KUBECONFIG = credentials('kubeconfig-devops')
+    }
 
     stages {
         stage('Checkout SCM') {
