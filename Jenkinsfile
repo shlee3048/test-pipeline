@@ -9,12 +9,20 @@ pipeline {
             metadata:
               labels:
                 app: python-docker
+              namespace: devops
             spec:
               containers:
               - name: python
                 image: python:3.10
                 command:
                 - cat
+                tty: true
+              - name: kubectl
+                image: bitnami/kubectl:latest
+                command:
+                - sleep
+                args:
+                - 9999999
                 tty: true
               - name: docker
                 image: docker:stable
@@ -30,14 +38,6 @@ pipeline {
               - name: docker-sock
                 hostPath:
                   path: /var/run/docker.sock
-              - name: kubectl
-                image: bitnami/kubectl:latest
-                command:
-                - sleep
-                args:
-                - 9999999
-                tty: true
-                
             '''
         }
     }
@@ -92,7 +92,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 container('kubectl') {
-                    sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record'
+                    sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record -n devops'
                 }
             }
         }
