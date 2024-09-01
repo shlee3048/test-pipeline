@@ -12,7 +12,7 @@ pipeline {
             spec:
               containers:
               - name: python
-                image: python:3.8
+                image: python:3.10-slim
                 command:
                 - cat
                 tty: true
@@ -23,6 +23,14 @@ pipeline {
                 args:
                 - 9999999
                 tty: true
+                volumeMounts:
+                - name: docker-sock
+                  mountPath: /var/run/docker.sock
+              volumes:
+              - name: docker-sock
+                hostPath:
+                  path: /var/run/docker.sock
+                
             '''
         }
     }
