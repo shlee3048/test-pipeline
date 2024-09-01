@@ -2,7 +2,6 @@ pipeline {
     agent {
         kubernetes {
             label 'python-docker-pod-template'
-            defaultContainer 'python'
             yaml '''
             apiVersion: v1
             kind: Pod
@@ -91,10 +90,10 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                container('kubectl') {
-                    sh 'kubectl get nodes'
-                    sh 'kubectl set image deployment/myapp myapp=shlee3048/fast-app:latest --record -n devops'
-                }
+                sh '''
+                    kubectl get nodes
+                    kubectl apply -f deployment.yaml
+                '''  
             }
         }
     }
